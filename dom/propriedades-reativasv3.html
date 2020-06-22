@@ -20,7 +20,9 @@
     },
     watch: {
       contador(novo, antigo){
-        console.log('novo:' + novo,'antigo:' + antigo)
+        setTimeout(() => {
+          this.contador=0
+        },2000)
       }
     },
     computed:{
