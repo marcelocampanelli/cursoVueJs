@@ -4,12 +4,58 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/vue"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <title>Matador de Monstro</title>
+  <title>Monster Slayer</title>
 </head>
 <body>
   <div id="app">
-
+    <div class="panel scores">
+      <div class="score">
+        <h1>Player</h1>
+        <div class="life-bar">
+          <div class="life"
+            :class="{danger: playerLife < 20}"
+            :style="{width: playerLife + '%'}"></div>
+        </div>
+        <div>{{ playerLife }}%</div>
+      </div>
+      <div class="score">
+        <h1>Monster</h1>
+        <div class="life-bar">
+          <div class="life "
+            :class="{danger: monsterLife < 20}"
+           :style="{width: monsterLife + '%'}"></div>
+        </div>
+        <div>{{ monsterLife }}%</div>
+      </div>
+    </div>
+    <div v-if="hasResult" class="panel result">
+      <div v-if="monsterLife == 0" class="win">You Winnn !!! =D</div>
+      <div v-else class="lose">You Lose !!! D:</div>
+    </div>
+    <div class="panel buttons">
+      <template v-if="running">
+        <button @click="attack(false)"
+          class="btn atk">Attack</button>
+        <button @click="attack(true)" 
+          class="btn special-atk">Special Attack</button>
+        <button @click="healAndHurt" 
+          class="btn heal">Heal</button>
+        <button @click="running = false, playerLife = 0"
+        class="btn surrender">Surrender</button>
+      </template>
+      <button v-else @click="startGame"
+      class="btn new-game">Start Game</button>
+    </div>
+    <div  v-if="logs.length"
+      class="panel logs">
+      <ul>
+        <li v-for="log in logs" 
+            :class="log.cls"
+            class="log">{{ log.text }}</li>
+      </ul>
+    </div>
   </div>
   <script src="app.js"></script>
 </body>
